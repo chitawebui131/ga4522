@@ -1,15 +1,42 @@
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions
+name: Continuous Integration
 on:
   push:
+    branches:
+      - main
+      - jenk
   workflow_dispatch:
-env:
-  # Setting an environment variable with the value of a configuration variable
-  env_var: ${{ vars.MY_NAME }}
-jobs:
-  Explore-GitHub-Actions:
-    runs-on: self-hosted
-    steps:
-      - run: echo "The secret >> ${{secrets.MY_SECRET_NAME}}."
-      - run: echo "The vars >> ${{ env.env_var }}."
   
+jobs:
+  my_first_job:
+    runs-on: ubuntu-latest
+
+    steps:
+    
+    - name: Set up JDK 17
+      uses: actions/setup-java@v5
+      with:
+        java-version: '17'
+        distribution: 'zulu'
+
+    - name: Show Java version
+      run: "java -version"
+
+    - name: Checkout code
+      uses: actions/checkout@v6
+      with:
+        ref: jenk
+
+    - name: Show directory
+      run: 'pwd'
+
+    - name: List files
+      run: 'ls -al'
+
+    - name: Install Dependencies
+      run: 'mvn compile'
+
+    - name: Build application
+      run: 'mvn package -DskipTests'
+
+    - name: Test application
+      run: 'mvn test'
