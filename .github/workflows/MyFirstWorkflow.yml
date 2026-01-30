@@ -8,7 +8,7 @@ env:
   env_var: ${{ vars.MY_NAME }}
 jobs:
   Explore-GitHub-Actions:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - run: echo "The secret >> ${{secrets.MY_SECRET_NAME}}."
       - run: echo "The vars >> ${{ env.env_var }}."
